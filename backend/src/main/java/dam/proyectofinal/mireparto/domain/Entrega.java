@@ -39,10 +39,15 @@ public class Entrega {
     
     public Entrega() {}
 
-    public Entrega(String direccion, LocalDateTime horario, EstadoEntrega estado) {
+    public Entrega(String direccion, String destinatario, LocalDateTime horario, EstadoEntrega estado, 
+    				Cliente cliente, Vehiculo vehiculo, Zona zona) {
         this.direccion = direccion;
+        this.destinatario = destinatario;
         this.horario = horario;
         this.estado = estado;
+        this.cliente = cliente;
+        this.vehiculo = vehiculo;
+        this.zona = zona;
     }
     
     public Long getId() { 

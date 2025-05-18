@@ -1,6 +1,7 @@
 package dam.proyectofinal.mireparto.service;
 
 import dam.proyectofinal.mireparto.domain.Vehiculo;
+import dam.proyectofinal.mireparto.dto.VehiculoDto;
 import dam.proyectofinal.mireparto.repository.VehiculoRepository;
 
 import org.springframework.stereotype.Service;
@@ -17,25 +18,54 @@ public class VehiculoService {
         this.repo = repo;
     }
 
-    public List<Vehiculo> listarTodos() {
-        return repo.findAll();
+//    public List<Vehiculo> listarTodos() {
+//        return repo.findAll();
+//    }
+    
+    public List<VehiculoDto> listarTodos() {
+        return repo.findAll().stream().map(VehiculoDto::new).toList();
     }
 
-    public Vehiculo obtenerPorId(Long id) {
-        return repo.findById(id)
-                   .orElseThrow(() -> new NoSuchElementException("Vehículo no encontrado: " + id));
+//    public Vehiculo obtenerPorId(Long id) {
+//        return repo.findById(id)
+//                   .orElseThrow(() -> new NoSuchElementException("Vehículo no encontrado: " + id));
+//    }
+    
+    public VehiculoDto obtenerPorId(Long id) {
+        Vehiculo v = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Vehículo no encontrado: " + id));
+        return new VehiculoDto(v);
     }
 
-    public Vehiculo crear(Vehiculo vehiculo) {
-        return repo.save(vehiculo);
+//    public Vehiculo crear(Vehiculo vehiculo) {
+//        return repo.save(vehiculo);
+//    }
+    
+    public VehiculoDto crear(VehiculoDto dto) {
+        Vehiculo v = new Vehiculo();
+        v.setMatricula(dto.getMatricula());
+        v.setTipo(dto.getTipo());
+        v.setCapacidad(dto.getCapacidad());
+
+        Vehiculo guardado = repo.save(v);
+        return new VehiculoDto(guardado);
     }
 
-    public Vehiculo actualizar(Long id, Vehiculo datos) {
-        Vehiculo existente = obtenerPorId(id);
-        existente.setMatricula(datos.getMatricula());
-        existente.setTipo(datos.getTipo());
-        existente.setCapacidad(datos.getCapacidad());
-        return repo.save(existente);
+//    public Vehiculo actualizar(Long id, Vehiculo datos) {
+//        Vehiculo existente = obtenerPorId(id);
+//        existente.setMatricula(datos.getMatricula());
+//        existente.setTipo(datos.getTipo());
+//        existente.setCapacidad(datos.getCapacidad());
+//        return repo.save(existente);
+//    }
+    
+    public VehiculoDto actualizar(Long id, VehiculoDto dto) {
+        Vehiculo existente = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Vehículo no encontrado: " + id));
+        existente.setMatricula(dto.getMatricula());
+        existente.setTipo(dto.getTipo());
+        existente.setCapacidad(dto.getCapacidad());
+
+        Vehiculo actualizado = repo.save(existente);
+        return new VehiculoDto(actualizado);
     }
 
     public void eliminar(Long id) {
