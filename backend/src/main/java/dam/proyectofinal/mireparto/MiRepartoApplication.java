@@ -1,4 +1,4 @@
-package com.diego.mi_reparto;
+package dam.proyectofinal.mireparto;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.diego.mi_reparto;
+package dam.proyectofinal.mireparto;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

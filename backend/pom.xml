@@ -8,8 +8,8 @@
 		<version>3.4.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.diego</groupId>
-	<artifactId>mi_reparto</artifactId>
+	<groupId>dam.proyectofinal</groupId>
+	<artifactId>mireparto</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>MiReparto</name>
 	<description>Gestión de entregas para autónomos</description>
@@ -48,12 +48,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
@@ -72,6 +66,11 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+  			<groupId>com.h2database</groupId>
+  			<artifactId>h2</artifactId>
+  			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
