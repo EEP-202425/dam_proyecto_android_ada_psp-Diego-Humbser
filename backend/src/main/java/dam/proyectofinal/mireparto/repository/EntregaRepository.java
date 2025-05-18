@@ -12,5 +12,6 @@ public interface EntregaRepository extends JpaRepository<Entrega, Long> {
     List<Entrega> findByEstado(EstadoEntrega estado);
     List<Entrega> findByClienteId(Long clienteId);
     List<Entrega> findByZonaNombre(String nombreZona);
+    List<Entrega> findByEstadoAndZonaNombre(EstadoEntrega estado, String nombreZona);
     
 }
