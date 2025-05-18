@@ -8,10 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface EntregaRepository extends JpaRepository<Entrega, Long> {
-    // Métodos CRUD heredados: findAll(), findById(), save(), deleteById(), etc.
 
-    // Ejemplos de queries automáticas
     List<Entrega> findByEstado(EstadoEntrega estado);
     List<Entrega> findByClienteId(Long clienteId);
     List<Entrega> findByZonaNombre(String nombreZona);
+    
 }
