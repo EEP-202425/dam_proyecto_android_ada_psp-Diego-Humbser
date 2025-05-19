@@ -1,6 +1,7 @@
 package dam.proyectofinal.mireparto.exception;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,20 @@ public class GlobalExceptionHandler {
         body.setPath(request.getDescription(false).replace("uri=", ""));
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+    
+    // 404 Not Found para recursos no existentes
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(
+            NoSuchElementException ex,
+            WebRequest request) {
+
+        ErrorResponse body = new ErrorResponse();
+        body.setStatus(HttpStatus.NOT_FOUND.value());
+        body.setError(ex.getMessage());
+        body.setPath(request.getDescription(false).replace("uri=", ""));
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 	
 }
