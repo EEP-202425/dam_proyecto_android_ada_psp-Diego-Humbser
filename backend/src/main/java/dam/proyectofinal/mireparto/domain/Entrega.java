@@ -15,9 +15,6 @@ public class Entrega {
     @Column(name = "direccion", nullable = false, length = 200)
     private String direccion;
     
-    @Column(name = "destinatario", nullable = false, length = 100)
-    private String destinatario;
-    
     @Column(name = "horario", nullable = false)
     private LocalDateTime horario;
     
@@ -39,10 +36,9 @@ public class Entrega {
     
     public Entrega() {}
 
-    public Entrega(String direccion, String destinatario, LocalDateTime horario, EstadoEntrega estado, 
+    public Entrega(String direccion, LocalDateTime horario, EstadoEntrega estado, 
     				Cliente cliente, Vehiculo vehiculo, Zona zona) {
         this.direccion = direccion;
-        this.destinatario = destinatario;
         this.horario = horario;
         this.estado = estado;
         this.cliente = cliente;
@@ -64,15 +60,7 @@ public class Entrega {
     
     public void setDireccion(String direccion) { 
     	this.direccion = direccion; 
-    }
-    
-    public String getDestinatario() { 
-    	return destinatario; 
-    }
-    
-    public void setDestinatario(String destinatario) { 
-    	this.destinatario = destinatario; 
-    }
+    }    
     
     public LocalDateTime getHorario() { 
     	return horario; 

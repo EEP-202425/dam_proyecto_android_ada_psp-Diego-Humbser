@@ -25,7 +25,6 @@ public class EntregaDto {
     public EntregaDto(Entrega e) {
         this.id = e.getId();
         this.direccion = e.getDireccion();
-        this.destinatario = e.getDestinatario();
         this.horario = e.getHorario();
         this.estado = e.getEstado().name();
         this.clienteId = e.getCliente().getId();
