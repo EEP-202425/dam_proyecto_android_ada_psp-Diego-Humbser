@@ -38,7 +38,7 @@ Aplicación móvil de gestión de entregas para repartidores autónomos.
 | RF-API-05 (DELETE)       | Implementado        |  
 | RF-API-06 (Paginación)   | No implementado     |  
 | RF-API-07 (Ordenación)   | No implementado     |  
-| RF-API-08 (Filtrado)     | Parcialmente*       |  
+| RF-API-08 (Filtrado)     | Parcialmente       |  
 | RF-API-09 (Valores predefinidos) | No implementado |  
 | RF-API-10 (Login)        | No implementado     |  
 | RF-API-11 (Registro)     | No implementado     |  
