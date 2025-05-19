@@ -57,8 +57,8 @@ Aplicación móvil de gestión de entregas para repartidores autónomos.
 #### **Requisitos Técnicos (RT)**  
 | Requisito               | Estado              |  
 |-------------------------|---------------------|  
-| RT-ARQ-01 y RT-ARQ-02   | Implementado        |  
-| RT-ARQ-03   | No Implementado        |  
+| RT-ARQ-01    | Implementado        |  
+| RT-ARQ-02 y RT-ARQ-03   | No Implementado        |  
 | RT-ARQ-04 a RT-ARQ-06   | Implementado        |  
 | RT-ARQ-07 y RT-ARQ-08   | No Implementado        |  
 | RT-SEG-01 y RT-SEG-02  | Implementado       |  
