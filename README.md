@@ -47,10 +47,11 @@ Aplicación móvil de gestión de entregas para repartidores autónomos.
 
 ---
 
-#### **Base de Datos (RF-BD)**  
+#### **Acceso a Datos (RF-BD)**  
 | Requisito         | Estado              |  
 |--------------------|---------------------|  
-| RF-BD-01 a RF-BD-07 | Implementado       |  
+| RF-BD-01 a RF-BD-03 | Implementado       |  
+| RF-BD-04 a RF-BD-07 | Parcialmente       |  
 | RF-BD-08 (Autenticación) | No implementado |  
 
 ---
@@ -58,8 +59,11 @@ Aplicación móvil de gestión de entregas para repartidores autónomos.
 #### **Requisitos Técnicos (RT)**  
 | Requisito               | Estado              |  
 |-------------------------|---------------------|  
-| RT-ARQ-01 a RT-ARQ-08   | Implementado        |  
-| RT-SEG-01 (Validación)  | Parcialmente*       |  
+| RT-ARQ-01 y RT-ARQ-02   | Implementado        |  
+| RT-ARQ-03   | No Implementado        |  
+| RT-ARQ-04 a RT-ARQ-06   | No Implementado        |  
+| RT-ARQ-07 y RT-ARQ-08   | No Implementado        |  
+| RT-SEG-01 y RT-SEG-02  | Implementado       |  
 | RT-SEG-04 (SQL seguro)  | Implementado        |  
 | RT-PR-01 a RT-PR-04     | No implementado     |  
 
