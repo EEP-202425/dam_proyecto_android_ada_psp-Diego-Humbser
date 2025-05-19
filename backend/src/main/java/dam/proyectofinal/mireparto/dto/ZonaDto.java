@@ -2,6 +2,9 @@ package dam.proyectofinal.mireparto.dto;
 
 import dam.proyectofinal.mireparto.domain.Zona;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +15,11 @@ import lombok.NoArgsConstructor;
 public class ZonaDto {
 
     private Long id;
+    
+    @NotBlank @Size(max = 100)
     private String nombre;
+    
+    @NotBlank @Size(max = 10)
     private String codigoPostal;
     
     public ZonaDto(Zona z) {

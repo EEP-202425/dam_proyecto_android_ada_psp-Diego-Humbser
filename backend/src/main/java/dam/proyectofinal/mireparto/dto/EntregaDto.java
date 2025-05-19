@@ -4,6 +4,12 @@ import java.time.LocalDateTime;
 
 import dam.proyectofinal.mireparto.domain.Entrega;
 
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,12 +20,25 @@ import lombok.NoArgsConstructor;
 public class EntregaDto {
     
 	private Long id;
+	
+    @NotBlank(message = "La dirección es obligatoria")
+    @Size(max = 200, message = "La dirección no puede superar 200 caracteres")
     private String direccion;
-    private String destinatario;
+    
+    @NotNull(message = "El horario es obligatorio")
+    @FutureOrPresent(message = "El horario debe ser presente o futuro") 
     private LocalDateTime horario;
+    
+    @NotBlank(message = "El estado es obligatorio")
     private String estado;
+    
+    @NotNull @Positive(message = "clienteId debe ser un valor positivo")
     private Long clienteId;
+    
+    @NotNull @Positive(message = "vehiculoId debe ser un valor positivo")
     private Long vehiculoId;
+    
+    @NotNull @Positive(message = "zonaId debe ser un valor positivo")
     private Long zonaId;
     
     public EntregaDto(Entrega e) {
