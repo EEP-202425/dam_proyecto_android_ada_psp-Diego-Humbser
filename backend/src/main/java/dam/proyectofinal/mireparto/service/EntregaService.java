@@ -37,8 +37,13 @@ public class EntregaService {
         return repo.findAll().stream().map(EntregaDto::new).toList();
     }
 
-    public Entrega obtenerPorId(Long id) {
-        return repo.findById(id).orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
+//    public Entrega obtenerPorId(Long id) {
+//        return repo.findById(id).orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
+//    }
+    
+    public EntregaDto obtenerPorId(Long id) {
+        Entrega e = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
+        return new EntregaDto(e);
     }
 
     public List<Entrega> listarPorEstado(EstadoEntrega estado) {
@@ -102,23 +107,44 @@ public class EntregaService {
         repo.deleteById(id);
     }
     
-    // Lista todas las entregas pendientes en la zona indicada
-    public List<Entrega> listarPendientesPorZona(String nombreZona) {
-        return repo.findByEstadoAndZonaNombre(EstadoEntrega.PENDIENTE, nombreZona);
+//    // Lista todas las entregas pendientes en la zona indicada
+//    public List<Entrega> listarPendientesPorZona(String nombreZona) {
+//        return repo.findByEstadoAndZonaNombre(EstadoEntrega.PENDIENTE, nombreZona);
+//    }
+    
+    public List<EntregaDto> listarPendientesPorZona(String nombreZona) {
+        return repo.findByEstadoAndZonaNombre(EstadoEntrega.PENDIENTE, nombreZona)
+                   .stream()
+                   .map(EntregaDto::new)
+                   .toList();
     }
     
-    // Marca una entrega como ENTREGADO
-    public Entrega marcarEntregada(Long id) {
-        Entrega e = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
+//    // Marca una entrega como ENTREGADO
+//    public Entrega marcarEntregada(Long id) {
+//        Entrega e = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
+//        e.setEstado(EstadoEntrega.ENTREGADO);
+//        return repo.save(e);
+//    }
+    
+    public EntregaDto marcarEntregada(Long id) {
+        Entrega e = repo.findById(id)
+                     .orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
         e.setEstado(EstadoEntrega.ENTREGADO);
-        return repo.save(e);
+        return new EntregaDto(repo.save(e));
     }
     
-    // Marca una entrega como FALLIDO
-    public Entrega marcarFallida(Long id) {
-        Entrega e = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
+//    // Marca una entrega como FALLIDO
+//    public Entrega marcarFallida(Long id) {
+//        Entrega e = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
+//        e.setEstado(EstadoEntrega.FALLIDO);
+//        return repo.save(e);
+//    }
+    
+    public EntregaDto marcarFallida(Long id) {
+        Entrega e = repo.findById(id)
+                     .orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
         e.setEstado(EstadoEntrega.FALLIDO);
-        return repo.save(e);
+        return new EntregaDto(repo.save(e));
     }
     
 }
