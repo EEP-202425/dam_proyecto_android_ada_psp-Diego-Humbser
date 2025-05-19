@@ -61,7 +61,7 @@ Aplicación móvil de gestión de entregas para repartidores autónomos.
 |-------------------------|---------------------|  
 | RT-ARQ-01 y RT-ARQ-02   | Implementado        |  
 | RT-ARQ-03   | No Implementado        |  
-| RT-ARQ-04 a RT-ARQ-06   | No Implementado        |  
+| RT-ARQ-04 a RT-ARQ-06   | Implementado        |  
 | RT-ARQ-07 y RT-ARQ-08   | No Implementado        |  
 | RT-SEG-01 y RT-SEG-02  | Implementado       |  
 | RT-SEG-04 (SQL seguro)  | Implementado        |  
