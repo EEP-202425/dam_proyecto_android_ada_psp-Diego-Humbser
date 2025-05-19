@@ -43,8 +43,6 @@ Aplicación móvil de gestión de entregas para repartidores autónomos.
 | RF-API-10 (Login)        | No implementado     |  
 | RF-API-11 (Registro)     | No implementado     |  
 
-\* Filtrado básico por zona y estado (sin múltiples criterios).  
-
 ---
 
 #### **Acceso a Datos (RF-BD)**  
