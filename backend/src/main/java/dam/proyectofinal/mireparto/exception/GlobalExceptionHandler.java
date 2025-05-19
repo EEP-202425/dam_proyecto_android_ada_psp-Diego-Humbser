@@ -50,5 +50,19 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
+    
+    // 500 Internal Server Error para excepciones no controladas
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleAll(
+            Exception ex,
+            WebRequest request) {
+
+        ErrorResponse body = new ErrorResponse();
+        body.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        body.setError("Internal server error");
+        body.setPath(request.getDescription(false).replace("uri=", ""));
+
+        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 	
 }
