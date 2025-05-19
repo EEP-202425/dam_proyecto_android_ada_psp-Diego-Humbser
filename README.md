@@ -65,8 +65,6 @@ Aplicación móvil de gestión de entregas para repartidores autónomos.
 | RT-SEG-04 (SQL seguro)  | Implementado        |  
 | RT-PR-01 a RT-PR-04     | No implementado     |  
 
-\* Validación básica en DTOs (sin anotaciones avanzadas).  
-
 ---
 
 #### **Funcionalidades Adicionales (FA)**  
