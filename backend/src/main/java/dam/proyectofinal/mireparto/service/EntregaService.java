@@ -67,8 +67,10 @@ public class EntregaService {
         // Construir la entidad Entrega
         Entrega e = new Entrega(
         		dto.getDireccion(),
-        		dto.getHorario(),
-        		EstadoEntrega.valueOf(dto.getEstado()), 
+        		dto.getFechaPrevista(),
+        		EstadoEntrega.valueOf(dto.getEstado()),
+        		dto.getPesoKg(),
+        		dto.getDescripcionPaquete(),
         		cliente, 
         		vehiculo, 
         		zona);
@@ -94,9 +96,12 @@ public class EntregaService {
         Entrega e = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
 
         e.setDireccion(dto.getDireccion());
-        e.setHorario(dto.getHorario());
+        e.setFechaPrevista(dto.getFechaPrevista());
+        e.setFechaEfectiva(dto.getFechaEfectiva());
         e.setEstado(EstadoEntrega.valueOf(dto.getEstado()));
-
+        e.setPesoKg(dto.getPesoKg());
+        e.setDescripcionPaquete(dto.getDescripcionPaquete());
+        
         Entrega actualizada = repo.save(e);
         return new EntregaDto(actualizada);
     }

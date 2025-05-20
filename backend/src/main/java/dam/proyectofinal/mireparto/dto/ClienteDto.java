@@ -20,22 +20,21 @@ public class ClienteDto {
     
     @NotBlank(message = "El nombre no puede quedar vacío")
     @Size(max = 100, message = "El nombre no puede superar 100 caracteres")
-    private String nombre;
-    
-    @NotBlank(message = "El teléfono es obligatorio")
-    @Pattern(regexp = "\\+?[0-9\\- ]{7,20}", message = "Formato de teléfono inválido")
-    private String telefono;
+    private String nombre;   
     
     @NotBlank(message = "El email es obligatorio")
     @Email(message = "Debe ser un email válido")
     @Size(max = 100, message = "El email no puede superar 100 caracteres")
     private String email;
+       
+    @Pattern(regexp = "\\+?[0-9\\- ]{7,20}", message = "Formato de teléfono inválido")
+    private String telefono;
 	
     public ClienteDto(Cliente c) {
         this.id = c.getId();
         this.nombre = c.getNombre();
-        this.telefono = c.getTelefono();
         this.email = c.getEmail();
+        this.telefono = c.getTelefono();
     }
     
 }

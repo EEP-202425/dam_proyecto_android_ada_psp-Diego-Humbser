@@ -16,11 +16,11 @@ public class Cliente {
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
 
-    @Column(name = "telefono", length = 20)
-    private String telefono;
-
     @Column(name = "email", nullable = false, unique = true, length = 100)
     private String email;
+    
+    @Column(name = "telefono", nullable = true, length = 20)
+    private String telefono;
     
     @OneToMany(mappedBy = "cliente",
             cascade = CascadeType.ALL,
@@ -29,10 +29,10 @@ public class Cliente {
     
     public Cliente() {}
     
-    public Cliente(String nombre, String telefono, String email) {
+    public Cliente(String nombre, String email, String telefono) {
         this.nombre = nombre;
-        this.telefono = telefono;
         this.email = email;
+        this.telefono = telefono;
     }
     
     public Long getId() { 
@@ -49,6 +49,14 @@ public class Cliente {
     
     public void setNombre(String nombre) { 
     	this.nombre = nombre; 
+    }   
+    
+    public String getEmail() { 
+    	return email; 
+    }
+    
+    public void setEmail(String email) { 
+    	this.email = email; 
     }
     
     public String getTelefono() { 
@@ -57,14 +65,6 @@ public class Cliente {
     
     public void setTelefono(String telefono) { 
     	this.telefono = telefono; 
-    }
-    
-    public String getEmail() { 
-    	return email; 
-    }
-    
-    public void setEmail(String email) { 
-    	this.email = email; 
     }
     
     public List<Entrega> getEntregas() {
@@ -87,8 +87,8 @@ public class Cliente {
     
     @Override
     public String toString() {
-        return "Cliente [id=" + id + ", nombre=" + nombre + ", telefono=" + telefono 
-        		+ ", email=" + email + "]";
+        return "Cliente [id=" + id + ", nombre=" + nombre + ", email=" + email 
+        		+ ", telefono=" + telefono + "]";
     }
     
 }

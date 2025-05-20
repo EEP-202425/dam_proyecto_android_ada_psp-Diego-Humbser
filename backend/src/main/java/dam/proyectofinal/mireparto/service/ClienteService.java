@@ -44,8 +44,8 @@ public class ClienteService {
         // Construir la entidad Cliente desde el DTO
         Cliente c = new Cliente();
         c.setNombre(dto.getNombre());
-        c.setTelefono(dto.getTelefono());
         c.setEmail(dto.getEmail());
+        c.setTelefono(dto.getTelefono());
         // Guardar y devolver DTO resultante
         Cliente guardado = repo.save(c);
         return new ClienteDto(guardado);
@@ -62,8 +62,8 @@ public class ClienteService {
     public ClienteDto actualizar(Long id, ClienteDto dto) {
         Cliente existente = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Cliente no encontrado: " + id));
         existente.setNombre(dto.getNombre());
-        existente.setTelefono(dto.getTelefono());
         existente.setEmail(dto.getEmail());
+        existente.setTelefono(dto.getTelefono());
         Cliente actualizado = repo.save(existente);
         return new ClienteDto(actualizado);
     }

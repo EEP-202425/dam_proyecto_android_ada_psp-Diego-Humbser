@@ -15,12 +15,24 @@ public class Entrega {
     @Column(name = "direccion", nullable = false, length = 200)
     private String direccion;
     
-    @Column(name = "horario", nullable = false)
-    private LocalDateTime horario;
+    @Column(name = "fecha_creacion", nullable = false)
+    private LocalDateTime fecha_creacion;
+    
+    @Column(name = "fecha_prevista", nullable = false)
+    private LocalDateTime fecha_prevista;
+    
+    @Column(name = "fecha_efectiva", nullable = true)
+    private LocalDateTime fecha_efectiva;
     
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false, length = 20)
     private EstadoEntrega estado;
+    
+    @Column(name = "peso_kg", nullable = false)
+    private Double peso_kg;
+    
+    @Column(name = "descripcion_paquete", length = 300)
+    private String descripcion_paquete;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
@@ -36,15 +48,17 @@ public class Entrega {
     
     public Entrega() {}
 
-    public Entrega(String direccion, LocalDateTime horario, EstadoEntrega estado, 
-    				Cliente cliente, Vehiculo vehiculo, Zona zona) {
-        this.direccion = direccion;
-        this.horario = horario;
-        this.estado = estado;
-        this.cliente = cliente;
-        this.vehiculo = vehiculo;
-        this.zona = zona;
-    }
+    public Entrega(String direccion, LocalDateTime fecha_prevista, EstadoEntrega estado, Double peso_kg, String descripcion_paquete,
+    		Cliente cliente, Vehiculo vehiculo, Zona zona) {
+    	  this.direccion = direccion;
+    	  this.fecha_prevista = fecha_prevista;
+    	  this.estado = estado;
+    	  this.peso_kg = peso_kg;
+    	  this.descripcion_paquete = descripcion_paquete;
+    	  this.cliente = cliente;
+    	  this.vehiculo = vehiculo;
+    	  this.zona = zona;
+    	}
     
     public Long getId() { 
     	return id; 
@@ -62,13 +76,30 @@ public class Entrega {
     	this.direccion = direccion; 
     }    
     
-    public LocalDateTime getHorario() { 
-    	return horario; 
+    public LocalDateTime getFechaCreacion() {
+    	return fecha_creacion;
     }
     
-    public void setHorario(LocalDateTime horario) { 
-    	this.horario = horario; 
+    @PrePersist
+    protected void onCreate() {
+        this.fecha_creacion = LocalDateTime.now();
     }
+    
+    public LocalDateTime getFechaPrevista() { 
+    	return fecha_prevista; 
+    }
+    
+    public void setFechaPrevista(LocalDateTime fecha_prevista) { 
+    	this.fecha_prevista = fecha_prevista; 
+    }
+
+    public LocalDateTime getFechaEfectiva() {
+    	return fecha_efectiva;
+    }
+    
+    public void setFechaEfectiva(LocalDateTime fecha_efectiva) {
+    	this.fecha_efectiva = fecha_efectiva;
+    }    
     
     public EstadoEntrega getEstado() { 
     	return estado; 
@@ -77,6 +108,22 @@ public class Entrega {
     public void setEstado(EstadoEntrega estado) { 
     	this.estado = estado; 
     }
+    
+    public Double getPesoKg() {
+    	return peso_kg;
+    }
+    
+    public void setPesoKg(Double peso_kg) {
+    	this.peso_kg = peso_kg;
+    }
+    
+    public String getDescripcionPaquete() {
+    	return descripcion_paquete;
+    }
+    
+    public void setDescripcionPaquete(String descripcion_paquete) {
+    	this.descripcion_paquete = descripcion_paquete;
+    }    
     
     public Cliente getCliente() { 
     	return cliente; 
@@ -151,8 +198,12 @@ public class Entrega {
     public String toString() {
         return "Entrega [id=" + id +
                ", direccion='" + direccion + '\'' +
-               ", horario=" + horario +
-               ", estado=" + estado +               
+               ", fechaCreacion=" + fecha_creacion +
+               ", fechaPrevista=" + fecha_prevista +
+               ", fechaEfectiva=" + fecha_efectiva +
+               ", estado=" + estado +
+               ", pesoKg=" + peso_kg +
+               ", descripcionPaquete='" + descripcion_paquete + '\'' +
                ", clienteId=" + (cliente != null ? cliente.getId() : "null") +
                ", vehiculoId=" + (vehiculo != null ? vehiculo.getId() : "null") +
                ", zonaId=" + (zona != null ? zona.getId() : "null") + "]";
