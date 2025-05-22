@@ -31,7 +31,7 @@ public class Entrega {
     @Column(name = "peso_kg", nullable = false)
     private Double peso_kg;
     
-    @Column(name = "descripcion_paquete", length = 300)
+    @Column(name = "descripcion_paquete", nullable = true, length = 300)
     private String descripcion_paquete;
 
     @ManyToOne(fetch = FetchType.LAZY)
