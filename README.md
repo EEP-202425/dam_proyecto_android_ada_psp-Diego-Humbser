@@ -22,9 +22,8 @@ Aplicación móvil de gestión de entregas para repartidores autónomos.
 #### **Aplicación Android (RF-AN)**  
 | Requisito         | Estado              |  
 |--------------------|---------------------|  
-| RF-AN-01 a RF-AN-09 | No implementado    |  
-| RF-AN-10 (Opcional) | No implementado    |  
-| RF-AN-11 (Opcional) | No implementado    |  
+| RF-AN-01 a RF-AN-10 | Implementado    |  
+| RF-AN-11 | No implementado    |  
 
 ---
 
@@ -38,10 +37,10 @@ Aplicación móvil de gestión de entregas para repartidores autónomos.
 | RF-API-05 (DELETE)       | Implementado        |  
 | RF-API-06 (Paginación)   | No implementado     |  
 | RF-API-07 (Ordenación)   | No implementado     |  
-| RF-API-08 (Filtrado)     | Parcialmente       |  
-| RF-API-09 (Valores predefinidos) | No implementado |  
-| RF-API-10 (Login)        | No implementado     |  
-| RF-API-11 (Registro)     | No implementado     |  
+| RF-API-08 (Filtrado)     | No implementado       |  
+| RF-API-09 (Valores predefinidos) | Implementado |  
+| RF-API-10 (Login)        | Implementado     |  
+| RF-API-11 (Registro)     | Implementado     |  
 
 ---
 
@@ -49,28 +48,26 @@ Aplicación móvil de gestión de entregas para repartidores autónomos.
 | Requisito         | Estado              |  
 |--------------------|---------------------|  
 | RF-BD-01 a RF-BD-03 | Implementado       |  
-| RF-BD-04 a RF-BD-07 | Parcialmente       |  
-| RF-BD-08 (Autenticación) | No implementado |  
+| RF-BD-04 | Parcialmente       |  
+| RF-BD-05 a RF-BD-08  | Implementado |  
 
 ---
 
 #### **Requisitos Técnicos (RT)**  
 | Requisito               | Estado              |  
 |-------------------------|---------------------|  
-| RT-ARQ-01    | Implementado        |  
-| RT-ARQ-02 y RT-ARQ-03   | No Implementado        |  
-| RT-ARQ-04 a RT-ARQ-06   | Implementado        |  
-| RT-ARQ-07 y RT-ARQ-08   | No Implementado        |  
-| RT-SEG-01 y RT-SEG-02  | Implementado       |  
-| RT-SEG-04 (SQL seguro)  | Implementado        |  
-| RT-PR-01 a RT-PR-04     | No implementado     |  
+| RT-ARQ-01 a RT-ARQ-07   | Implementado        |  
+| RT-ARQ-08 a RT-ARQ-10   | NO Implementado        |  
+| RT-SEG-01 a RT-SEG-05  | Implementado       |  
+| RT-PR-01 a RT-PR-04     | NO implementado     |  
 
 ---
 
 #### **Funcionalidades Adicionales (FA)**  
 | Requisito         | Estado              |  
 |--------------------|---------------------|  
-| FA-01 a FA-03      | No implementado     |  
+| FA-01      | Implementado     |  
+| FA-02 y FA-03      | NO implementado     |  
 
 ---
 
