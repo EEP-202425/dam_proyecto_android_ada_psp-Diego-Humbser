@@ -28,18 +28,10 @@ public class EntregaService {
         this.vehiculoRepo = vehiculoRepo;
         this.zonaRepo = zonaRepo;
     }
-
-//    public List<Entrega> listarTodas() {
-//        return repo.findAll();
-//    }
     
     public List<EntregaDto> listarTodas() {
         return repo.findAll().stream().map(EntregaDto::new).toList();
     }
-
-//    public Entrega obtenerPorId(Long id) {
-//        return repo.findById(id).orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
-//    }
     
     public EntregaDto obtenerPorId(Long id) {
         Entrega e = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
@@ -49,11 +41,6 @@ public class EntregaService {
     public List<Entrega> listarPorEstado(EstadoEntrega estado) {
         return repo.findByEstado(estado);
     }
-
-//    public Entrega crear(Entrega entrega) {
-//        entrega.setEstado(EstadoEntrega.PENDIENTE);
-//        return repo.save(entrega);
-//    }
 
     public EntregaDto crear(EntregaDto dto) {
         // Validar y cargar entidades relacionadas
@@ -78,19 +65,7 @@ public class EntregaService {
         // Guardar y devolver como DTO
         Entrega guardada = repo.save(e);
         return new EntregaDto(guardada);
-    }
-    
-//    public Entrega actualizar(Long id, Entrega datos) {
-//        Entrega existente = obtenerPorId(id);
-//        existente.setDireccion(datos.getDireccion());
-//        existente.setDestinatario(datos.getDestinatario());
-//        existente.setHorario(datos.getHorario());
-//        existente.setEstado(datos.getEstado());
-//        existente.setCliente(datos.getCliente());
-//        existente.setVehiculo(datos.getVehiculo());
-//        existente.setZona(datos.getZona());
-//        return repo.save(existente);
-//    }
+    }    
 
     public EntregaDto actualizar(Long id, EntregaDto dto) {
         Entrega e = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
@@ -110,10 +85,7 @@ public class EntregaService {
         repo.deleteById(id);
     }
     
-//    // Lista todas las entregas pendientes en la zona indicada
-//    public List<Entrega> listarPendientesPorZona(String nombreZona) {
-//        return repo.findByEstadoAndZonaNombre(EstadoEntrega.PENDIENTE, nombreZona);
-//    }
+    // Lista todas las entregas pendientes en la zona indicada
     
     public List<EntregaDto> listarPendientesPorZona(String nombreZona) {
         return repo.findByEstadoAndZonaNombre(EstadoEntrega.PENDIENTE, nombreZona)
@@ -122,12 +94,7 @@ public class EntregaService {
                    .toList();
     }
     
-//    // Marca una entrega como ENTREGADO
-//    public Entrega marcarEntregada(Long id) {
-//        Entrega e = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
-//        e.setEstado(EstadoEntrega.ENTREGADO);
-//        return repo.save(e);
-//    }
+    // Marca una entrega como ENTREGADO
     
     public EntregaDto marcarEntregada(Long id) {
         Entrega e = repo.findById(id)
@@ -136,12 +103,7 @@ public class EntregaService {
         return new EntregaDto(repo.save(e));
     }
     
-//    // Marca una entrega como FALLIDO
-//    public Entrega marcarFallida(Long id) {
-//        Entrega e = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Entrega no encontrada: " + id));
-//        e.setEstado(EstadoEntrega.FALLIDO);
-//        return repo.save(e);
-//    }
+    // Marca una entrega como FALLIDO
     
     public EntregaDto marcarFallida(Long id) {
         Entrega e = repo.findById(id)

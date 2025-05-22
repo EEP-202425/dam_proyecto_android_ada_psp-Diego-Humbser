@@ -17,28 +17,15 @@ public class ZonaService {
     public ZonaService(ZonaRepository repo) {
         this.repo = repo;
     }
-
-//    public List<Zona> listarTodos() {
-//        return repo.findAll();
-//    }
     
     public List<ZonaDto> listarTodas() {
         return repo.findAll().stream().map(ZonaDto::new).toList();
     }
-
-//    public Zona obtenerPorId(Long id) {
-//        return repo.findById(id)
-//                   .orElseThrow(() -> new NoSuchElementException("Zona no encontrada: " + id));
-//    }
     
     public ZonaDto obtenerPorId(Long id) {
         Zona z = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Zona no encontrada: " + id));
         return new ZonaDto(z);
     }
-
-//    public Zona crear(Zona zona) {
-//        return repo.save(zona);
-//    }
     
     public ZonaDto crear(ZonaDto dto) {
         Zona z = new Zona();
@@ -48,13 +35,6 @@ public class ZonaService {
         Zona guardada = repo.save(z);
         return new ZonaDto(guardada);
     }
-
-//    public Zona actualizar(Long id, Zona datos) {
-//        Zona existente = obtenerPorId(id);
-//        existente.setNombre(datos.getNombre());
-//        existente.setCodigoPostal(datos.getCodigoPostal());
-//        return repo.save(existente);
-//    }
     
     public ZonaDto actualizar(Long id, ZonaDto dto) {
         Zona existente = repo.findById(id).orElseThrow(() -> new NoSuchElementException("Zona no encontrada: " + id));
