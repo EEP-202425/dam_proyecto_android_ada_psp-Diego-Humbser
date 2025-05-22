@@ -72,4 +72,4 @@ Aplicación móvil de gestión de entregas para repartidores autónomos.
 ---
 
 ### **RE-02.3. Enlace al Vídeo de Presentación**  
-🔗 [Enlace al vídeo de defensa](URL)
+🔗 [Enlace al vídeo de defensa](https://eepmad-my.sharepoint.com/:f:/g/personal/diego-humbser1_eep-igroup_com/ErIP5-EJCKpDksSNSMQ9vVcBe0LmKd3emV2ZvR-9w__qNg?e=LXBIKN)
