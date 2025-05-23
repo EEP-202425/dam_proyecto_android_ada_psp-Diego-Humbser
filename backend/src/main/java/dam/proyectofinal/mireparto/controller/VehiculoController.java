@@ -19,7 +19,7 @@ import dam.proyectofinal.mireparto.service.VehiculoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/vehiculos")
+@RequestMapping("/api/vehiculos")
 public class VehiculoController {
 	
     private final VehiculoService service;

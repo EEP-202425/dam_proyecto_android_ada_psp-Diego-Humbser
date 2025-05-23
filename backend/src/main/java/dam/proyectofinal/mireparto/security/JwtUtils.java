@@ -2,35 +2,25 @@ package dam.proyectofinal.mireparto.security;
 
 import java.util.Date;
 import java.util.function.Function;
-
 import javax.crypto.SecretKey;
 
 import jakarta.annotation.PostConstruct;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtils {
 
-    @Value("${jwt.secret}")
-    private String secret;
-
-    @Value("${jwt.expirationMs}")
-    private long expirationMs;
-
+    private static final long DEFAULT_EXPIRATION_MS = 86400000;
     private SecretKey signingKey;
     
     @PostConstruct
     public void init() {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
-        this.signingKey = Keys.hmacShaKeyFor(keyBytes);
+        this.signingKey = Jwts.SIG.HS256.key().build();
     }
 
     // Genera un token JWT para el usuario dado
@@ -39,7 +29,7 @@ public class JwtUtils {
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expirationMs))
+                .expiration(new Date(System.currentTimeMillis() + DEFAULT_EXPIRATION_MS))
                 .signWith(signingKey)
                 .compact();
     }

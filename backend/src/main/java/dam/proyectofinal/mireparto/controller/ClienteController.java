@@ -19,7 +19,7 @@ import dam.proyectofinal.mireparto.service.ClienteService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/api/clientes")
 public class ClienteController {
 	
     private final ClienteService service;

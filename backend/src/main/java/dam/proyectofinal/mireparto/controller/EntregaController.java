@@ -21,7 +21,7 @@ import dam.proyectofinal.mireparto.service.EntregaService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/entregas")
+@RequestMapping("/api/entregas")
 public class EntregaController {
 
 	private final EntregaService service;

@@ -19,7 +19,7 @@ import dam.proyectofinal.mireparto.service.ZonaService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/zonas")
+@RequestMapping("/api/zonas")
 public class ZonaController {
 	
     private final ZonaService service;
