@@ -1,7 +1,6 @@
 package dam.proyectofinal.mireparto.ui.entregas
 
 import dam.proyectofinal.mireparto.viewmodel.EntregaViewModel
-import dam.proyectofinal.mireparto.ui.theme.MiRepartoTheme
 
 import java.time.LocalDate
 import java.time.LocalTime
@@ -19,7 +18,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,14 +33,54 @@ fun CrearEntregaScreen(viewModel: EntregaViewModel, onBack: () -> Unit) {
     val fechaFecha by viewModel.fechaPrevistaFecha.collectAsState()
     val fechaHora by viewModel.fechaPrevistaHora.collectAsState()
 
+    val errorMessage by viewModel.errorMessage.collectAsState()
+
+
     var direccion by remember { mutableStateOf("") }
     var pesoText by remember { mutableStateOf("") }
     var descripcion by remember { mutableStateOf("") }
 
-    // Dropdown states
     var clienteExpanded by remember { mutableStateOf(false) }
     var vehiculoExpanded by remember { mutableStateOf(false) }
     var zonaExpanded by remember { mutableStateOf(false) }
+
+    var attemptedSubmit by remember { mutableStateOf(false) }
+
+    val direccionError = when {
+        direccion.isBlank() -> "La dirección es obligatoria"
+        direccion.length > 200 -> "La dirección no puede superar 200 caracteres"
+        else -> null
+    }
+    val pesoError = when {
+        pesoText.isBlank() -> "El peso es obligatorio"
+        pesoText.toDoubleOrNull() == null -> "El peso debe ser un número"
+        pesoText.toDoubleOrNull() != null && pesoText.toDouble() <= 0.0 -> "El peso debe ser mayor que cero"
+        else -> null
+    }
+    val descripcionError = if (descripcion.length > 300) "La descripción no puede superar 300 caracteres" else null
+
+    val clienteError = if (selectedCliente == null) "Debes seleccionar un cliente" else null
+    val vehiculoError = if (selectedVehiculo == null) "Debes seleccionar un vehículo" else null
+    val zonaError = if (selectedZona == null) "Debes seleccionar una zona" else null
+
+    val fechaValue = fechaFecha
+    val fechaError = when {
+        fechaValue == null -> "La fecha prevista es obligatoria"
+        fechaValue.isBefore(LocalDate.now()) -> "La fecha prevista debe ser hoy o en el futuro"
+        else -> null
+    }
+    val horaError = if (fechaHora == null) "La hora prevista es obligatoria" else null
+
+    val isFormValid = listOf(
+        direccionError,
+        pesoError,
+        descripcionError,
+        clienteError,
+        vehiculoError,
+        zonaError,
+        fechaError,
+        horaError
+    ).all { it == null }
 
     // Contextos para pickers
     val context = LocalContext.current
@@ -73,6 +111,9 @@ fun CrearEntregaScreen(viewModel: EntregaViewModel, onBack: () -> Unit) {
                 label = { Text("Dirección") },
                 modifier = Modifier.fillMaxWidth()
             )
+            if (attemptedSubmit && direccionError != null) {
+                Text(direccionError, color = MaterialTheme.colorScheme.error)
+            }
 
             // Peso
             TextField(
@@ -82,6 +123,9 @@ fun CrearEntregaScreen(viewModel: EntregaViewModel, onBack: () -> Unit) {
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
+            if (attemptedSubmit && pesoError != null) {
+                Text(pesoError, color = MaterialTheme.colorScheme.error)
+            }
 
             // Descripción
             TextField(
@@ -92,6 +136,9 @@ fun CrearEntregaScreen(viewModel: EntregaViewModel, onBack: () -> Unit) {
                 singleLine = false,
                 maxLines = 3
             )
+            if (attemptedSubmit && descripcionError != null) {
+                Text(descripcionError, color = MaterialTheme.colorScheme.error)
+            }
 
             // Selector de Cliente
             ExposedDropdownMenuBox(
@@ -119,6 +166,9 @@ fun CrearEntregaScreen(viewModel: EntregaViewModel, onBack: () -> Unit) {
                             }
                         )
                     }
+                }
+                if (attemptedSubmit && clienteError != null) {
+                    Text(clienteError, color = MaterialTheme.colorScheme.error)
                 }
             }
 
@@ -149,6 +199,9 @@ fun CrearEntregaScreen(viewModel: EntregaViewModel, onBack: () -> Unit) {
                         )
                     }
                 }
+                if (attemptedSubmit && vehiculoError != null) {
+                    Text(vehiculoError, color = MaterialTheme.colorScheme.error)
+                }
             }
 
             // Selector de Zona
@@ -178,14 +231,13 @@ fun CrearEntregaScreen(viewModel: EntregaViewModel, onBack: () -> Unit) {
                         )
                     }
                 }
+                if (attemptedSubmit && zonaError != null) {
+                    Text(zonaError, color = MaterialTheme.colorScheme.error)
+                }
             }
 
-            // Fecha Prevista
-            TextField(
-                readOnly = true,
-                value = fechaFecha?.toString() ?: "",
-                onValueChange = { },
-                label = { Text("Fecha Prevista") },
+            // Campo de Fecha Prevista
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
@@ -198,14 +250,22 @@ fun CrearEntregaScreen(viewModel: EntregaViewModel, onBack: () -> Unit) {
                             today.year, today.monthValue - 1, today.dayOfMonth
                         ).show()
                     }
-            )
+            ) {
+                TextField(
+                    value = fechaFecha?.toString() ?: "",
+                    onValueChange = {},
+                    label = { Text("Fecha Prevista") },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = false,
+                    readOnly = true
+                )
+            }
+            if (attemptedSubmit && fechaError != null) {
+                Text(fechaError, color = MaterialTheme.colorScheme.error)
+            }
 
-            // Hora Prevista
-            TextField(
-                readOnly = true,
-                value = fechaHora?.toString() ?: "",
-                onValueChange = { },
-                label = { Text("Hora Prevista") },
+            // Campo de Hora Prevista
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
@@ -218,39 +278,45 @@ fun CrearEntregaScreen(viewModel: EntregaViewModel, onBack: () -> Unit) {
                             now.hour, now.minute, true
                         ).show()
                     }
-            )
+            ) {
+                TextField(
+                    value = fechaHora?.toString() ?: "",
+                    onValueChange = {},
+                    label = { Text("Hora Prevista") },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = false,
+                    readOnly = true
+                )
+            }
+            if (attemptedSubmit && horaError != null) {
+                Text(horaError, color = MaterialTheme.colorScheme.error)
+            }
 
             Spacer(Modifier.height(16.dp))
 
             // Botón Guardar
             Button(
                 onClick = {
-                    val pesoKg = pesoText.toDoubleOrNull() ?: 0.0
-                    viewModel.createEntrega(direccion, pesoKg, descripcion.ifBlank { null })
-                    onBack()
+                    attemptedSubmit = true
+                    if (isFormValid) {
+                        val pesoKg = pesoText.toDoubleOrNull() ?: 0.0
+                        viewModel.createEntrega(direccion, pesoKg, descripcion.ifBlank { null })
+                        onBack()
+                    }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Guardar")
             }
-        }
-    }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewCrearEntregaScreen() {
-    val vm = remember {
-        EntregaViewModel().apply {
-            cargarClientesMock()
-            cargarVehiculosMock()
-            cargarZonasMock()
+            Spacer(Modifier.height(16.dp))
+
+            errorMessage?.let { msg ->
+                Text(
+                    text = msg,
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
         }
-    }
-    MiRepartoTheme {
-        CrearEntregaScreen(
-            viewModel = vm,
-            onBack = {}
-        )
     }
 }

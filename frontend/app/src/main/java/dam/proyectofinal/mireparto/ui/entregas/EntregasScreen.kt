@@ -5,7 +5,6 @@ import dam.proyectofinal.mireparto.model.EntregaDto
 import dam.proyectofinal.mireparto.model.ClienteDto
 import dam.proyectofinal.mireparto.model.VehiculoDto
 import dam.proyectofinal.mireparto.model.ZonaDto
-import dam.proyectofinal.mireparto.ui.theme.MiRepartoTheme
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,11 +16,9 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -132,26 +129,6 @@ fun EntregaItem(
                 "FALLIDO" -> Color.Red
                 else -> Color.Black
             }
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewEntregasScreen() {
-    val vm = remember { EntregaViewModel().apply {
-        cargarEntregasMock()
-        cargarClientesMock()
-        cargarVehiculosMock()
-        cargarZonasMock()
-        }
-    }
-    MiRepartoTheme {
-        EntregasScreen(
-            viewModel = vm,
-            onNavigateToCreate = {},
-            onItemClick = {},
-            onDelete = {}
         )
     }
 }

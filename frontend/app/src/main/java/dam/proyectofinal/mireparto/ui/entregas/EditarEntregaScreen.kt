@@ -59,6 +59,42 @@ fun EditarEntregaScreen(
     var vehiculoExpanded by remember { mutableStateOf(false) }
     var zonaExpanded by remember { mutableStateOf(false) }
 
+    var attemptedSubmit by remember { mutableStateOf(false) }
+
+    val direccionError = when {
+        direccion.isBlank() -> "La dirección es obligatoria"
+        direccion.length > 200 -> "La dirección no puede superar 200 caracteres"
+        else -> null
+    }
+    val pesoError = when {
+        pesoText.isBlank() -> "El peso es obligatorio"
+        pesoText.toDoubleOrNull() == null -> "El peso debe ser un número"
+        pesoText.toDoubleOrNull() != null && pesoText.toDouble() <= 0.0 -> "El peso debe ser mayor que cero"
+        else -> null
+    }
+    val descripcionError = if (descripcion.length > 300) "La descripción no puede superar 300 caracteres" else null
+
+    val clienteError = if (clienteSel == null) "Debes seleccionar un cliente" else null
+    val vehiculoError = if (vehiculoSel == null) "Debes seleccionar un vehículo" else null
+    val zonaError = if (zonaSel == null) "Debes seleccionar una zona" else null
+
+    val fechaValue = fechaFecha
+    val fechaError = when {
+        fechaValue == null -> "La fecha prevista es obligatoria"
+        fechaValue.isBefore(LocalDate.now()) -> "La fecha prevista debe ser hoy o en el futuro"
+        else -> null
+    }
+    val horaError = if (fechaHora == null) "La hora prevista es obligatoria" else null
+
+    val estadoError = if (estadoSeleccionado.isBlank()) "El estado es obligatorio" else null
+
+    val isFormValid = listOf(
+        direccionError, pesoError, descripcionError,
+        clienteError, vehiculoError, zonaError,
+        fechaError, horaError, estadoError
+    ).all { it == null }
+
+
     // Pre-poblar cuando cambia la entrega
     LaunchedEffect(entrega) {
         entrega?.let { e ->
@@ -97,7 +133,10 @@ fun EditarEntregaScreen(
                 return@Box
             }
             errorMessage?.let { msg ->
-                Text(text = msg, color = MaterialTheme.colorScheme.error)
+                Text(
+                    text = msg,
+                    color = MaterialTheme.colorScheme.error
+                )
                 return@Box
             }
             Column(
@@ -113,6 +152,9 @@ fun EditarEntregaScreen(
                     label = { Text("Dirección") },
                     modifier = Modifier.fillMaxWidth()
                 )
+                if (attemptedSubmit && direccionError != null) {
+                    Text(direccionError, color = MaterialTheme.colorScheme.error)
+                }
                 TextField(
                     value = pesoText,
                     onValueChange = { pesoText = it },
@@ -120,12 +162,18 @@ fun EditarEntregaScreen(
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.fillMaxWidth()
                 )
+                if (attemptedSubmit && pesoError != null) {
+                    Text(pesoError , color = MaterialTheme.colorScheme.error)
+                }
                 TextField(
                     value = descripcion,
                     onValueChange = { descripcion = it },
                     label = { Text("Descripción paquete") },
                     modifier = Modifier.fillMaxWidth()
                 )
+                if (attemptedSubmit && descripcionError != null) {
+                    Text(descripcionError, color = MaterialTheme.colorScheme.error)
+                }
                 // Cliente dropdown
                 ExposedDropdownMenuBox(
                     expanded = clienteExpanded,
@@ -152,6 +200,9 @@ fun EditarEntregaScreen(
                                 }
                             )
                         }
+                    }
+                    if (attemptedSubmit && clienteError != null) {
+                        Text(clienteError, color = MaterialTheme.colorScheme.error)
                     }
                 }
                 // Vehículo dropdown
@@ -181,6 +232,9 @@ fun EditarEntregaScreen(
                             )
                         }
                     }
+                    if (attemptedSubmit && vehiculoError != null) {
+                        Text(vehiculoError, color = MaterialTheme.colorScheme.error)
+                    }
                 }
                 // Zona dropdown
                 ExposedDropdownMenuBox(
@@ -209,6 +263,9 @@ fun EditarEntregaScreen(
                             )
                         }
                     }
+                    if (attemptedSubmit && zonaError != null) {
+                        Text(zonaError, color = MaterialTheme.colorScheme.error)
+                    }
                 }
                 // Fecha y Hora previstta
                 TextField(
@@ -227,6 +284,9 @@ fun EditarEntregaScreen(
                             ).show()
                         }
                 )
+                if (attemptedSubmit && fechaError != null) {
+                    Text(fechaError, color = MaterialTheme.colorScheme.error)
+                }
                 TextField(
                     readOnly = true,
                     value = fechaHora?.toString() ?: "",
@@ -243,6 +303,9 @@ fun EditarEntregaScreen(
                             ).show()
                         }
                 )
+                if (attemptedSubmit && horaError != null) {
+                    Text(horaError, color = MaterialTheme.colorScheme.error)
+                }
                 // Selector de Estado
                 Text(text = "Estado:", style = MaterialTheme.typography.titleMedium)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -254,10 +317,32 @@ fun EditarEntregaScreen(
                         )
                     }
                 }
+                if (attemptedSubmit && estadoError != null) {
+                    Text(estadoError, color = MaterialTheme.colorScheme.error)
+                }
                 Spacer(modifier = Modifier.height(16.dp))
                 // Botón Actualizar
                 Button(
-                    onClick = { viewModel.updateEntrega(entrega!!) ; onBack() },
+                    onClick = {
+                        attemptedSubmit = true
+                        val entregaValue = entrega  // <--- variable local
+                        if (isFormValid && entregaValue != null) {
+                            val pesoKg = pesoText.toDoubleOrNull() ?: 0.0
+                            val dt = LocalDateTime.of(fechaValue, fechaHora)
+                            val actualizado = entregaValue.copy(  // <--- ahora sí funciona
+                                direccion = direccion,
+                                fechaPrevista = dt.toString(),
+                                pesoKg = pesoKg,
+                                descripcionPaquete = descripcion.ifBlank { null },
+                                clienteId = clienteSel!!.id,
+                                vehiculoId = vehiculoSel!!.id,
+                                zonaId = zonaSel!!.id,
+                                estado = estadoSeleccionado
+                            )
+                            viewModel.updateEntrega(actualizado)
+                            onBack()
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Actualizar")
