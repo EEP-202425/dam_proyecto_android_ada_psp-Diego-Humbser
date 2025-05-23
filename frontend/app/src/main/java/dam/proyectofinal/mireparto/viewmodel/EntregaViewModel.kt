@@ -114,7 +114,14 @@ class EntregaViewModel : ViewModel() {
 
     /** Carga para selectores **/
     fun loadClientes() = viewModelScope.launch {
-        _clientes.value = try { RetrofitInstance.api.getClientes() } catch (_: Exception) { emptyList() }
+        try {
+            val lista = RetrofitInstance.api.getClientes()
+            println("Clientes recibidos: ${lista.size}")
+            _clientes.value = lista
+        } catch (e: Exception) {
+            println("Error al cargar clientes: ${e.message}")
+            _clientes.value = emptyList()
+        }
     }
     fun loadVehiculos() = viewModelScope.launch {
         _vehiculos.value = try { RetrofitInstance.api.getVehiculos() } catch (_: Exception) { emptyList() }
@@ -168,8 +175,18 @@ class EntregaViewModel : ViewModel() {
                 val creado = RetrofitInstance.api.createEntrega(nuevaEntrega)
                 _entregas.update { it + creado }
                 _errorMessage.value = null
+            } catch (e: HttpException) {
+                _errorMessage.value = when (e.code()) {
+                    400 -> "Revisa los campos: datos inválidos."
+                    404 -> "No se encontró el recurso."
+                    409 -> "Ya existe una entrega similar."
+                    500 -> "Error interno del servidor."
+                    else -> "Fallo HTTP (${e.code()})"
+                }
+            } catch (e: IOException) {
+                _errorMessage.value = "No hay conexión con el servidor."
             } catch (e: Exception) {
-                _errorMessage.value = "Fallo al crear: ${'$'}{e.message}"
+                _errorMessage.value = "Error inesperado: ${e.message}"
             } finally {
                 _isLoading.value = false
             }
@@ -186,8 +203,18 @@ class EntregaViewModel : ViewModel() {
                 _entregas.update { list -> list.map { if (it.id == updated.id) updated else it } }
                 _currentEntrega.value = updated
                 _errorMessage.value = null
+            } catch (e: HttpException) {
+                _errorMessage.value = when (e.code()) {
+                    400 -> "Revisa los campos: datos inválidos."
+                    404 -> "No se encontró la entrega."
+                    409 -> "Conflicto al actualizar. Intenta de nuevo."
+                    500 -> "Error interno del servidor."
+                    else -> "Fallo HTTP (${e.code()})"
+                }
+            } catch (e: IOException) {
+                _errorMessage.value = "No hay conexión con el servidor."
             } catch (e: Exception) {
-                _errorMessage.value = "Fallo al actualizar: ${e.message}"
+                _errorMessage.value = "Error inesperado: ${e.message}"
             } finally {
                 _isUpdating.value = false
             }
@@ -215,53 +242,7 @@ class EntregaViewModel : ViewModel() {
         _estadoSeleccionado.value = nuevoEstado
     }
 
-    /** Datos mock para previews **/
-    fun cargarEntregasMock() {
-        _entregas.value = listOf(
-            EntregaDto(
-                id = 1L,
-                direccion = "Calle Falsa 123",
-                fechaCreacion = LocalDateTime.now().minusDays(1).toString(),
-                fechaPrevista = LocalDateTime.now().plusDays(1).toString(),
-                fechaEfectiva = null,
-                estado = "PENDIENTE",
-                pesoKg = 2.5,
-                descripcionPaquete = "Libro",
-                clienteId = 1L,
-                vehiculoId = 1L,
-                zonaId = 1L
-            ),
-            EntregaDto(
-                id = 2L,
-                direccion = "Avenida Siempre Viva 742",
-                fechaCreacion = LocalDateTime.now().minusHours(5).toString(),
-                fechaPrevista = LocalDateTime.now().plusHours(3).toString(),
-                fechaEfectiva = LocalDateTime.now().toString(),
-                estado = "ENTREGADO",
-                pesoKg = 1.2,
-                descripcionPaquete = "Carta",
-                clienteId = 2L,
-                vehiculoId = 2L,
-                zonaId = 2L
-            )
-        )
-    }
-    fun cargarClientesMock() {
-        _clientes.value = listOf(
-            ClienteDto(1L, "Juan Pérez", "juan@e.com", "123456789"),
-            ClienteDto(2L, "Ana Gómez", "ana@e.com", "987654321")
-        )
-    }
-    fun cargarVehiculosMock() {
-        _vehiculos.value = listOf(
-            VehiculoDto(1L, "ABC123", "moto", 15.0),
-            VehiculoDto(2L, "XYZ789", "bicicleta", 5.0)
-        )
-    }
-    fun cargarZonasMock() {
-        _zonas.value = listOf(
-            ZonaDto(1L, "Centro", "28001"),
-            ZonaDto(2L, "Norte", "28002")
-        )
+    fun clearError() {
+        _errorMessage.value = null
     }
 }

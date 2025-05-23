@@ -36,7 +36,11 @@ class AuthViewModel : ViewModel() {
             } catch (e: IOException) {
                 _errorMessage.value = "Error de red: ${e.message}"
             } catch (e: HttpException) {
-                _errorMessage.value = "Error HTTP: ${e.code()}"
+                when (e.code()) {
+                    401, 403 -> _errorMessage.value = "Correo o contraseña incorrectos"
+                    500      -> _errorMessage.value = "Error del servidor. Intenta más tarde."
+                    else     -> _errorMessage.value = "Error desconocido (${e.code()})"
+                }
             } catch (e: Exception) {
                 _errorMessage.value = "Error inesperado: ${e.localizedMessage}"
             } finally {
@@ -57,7 +61,12 @@ class AuthViewModel : ViewModel() {
             } catch (e: IOException) {
                 _errorMessage.value = "Error de red: ${e.message}"
             } catch (e: HttpException) {
-                _errorMessage.value = "Error HTTP: ${e.code()}"
+                when (e.code()) {
+                    409 -> _errorMessage.value = "El email ya está registrado"
+                    400 -> _errorMessage.value = "Campos inválidos"
+                    403, 401 -> _errorMessage.value = "No tienes permisos para registrarte"
+                    else -> _errorMessage.value = "Error desconocido (${e.code()})"
+                }
             } catch (e: Exception) {
                 _errorMessage.value = "Error inesperado: ${e.localizedMessage}"
             } finally {
@@ -66,7 +75,6 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    // Limpia el estado de autenticación y errores
     fun clearAuthState() {
         _authResponse.value = null
         _errorMessage.value = null

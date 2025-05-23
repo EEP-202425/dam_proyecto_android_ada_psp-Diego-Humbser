@@ -10,6 +10,7 @@ import dam.proyectofinal.mireparto.viewmodel.AuthViewModel
 import dam.proyectofinal.mireparto.viewmodel.EntregaViewModel
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -34,17 +35,22 @@ fun Navigation(authViewModel: AuthViewModel, entregaViewModel: EntregaViewModel)
     ) {
         // Login
         composable(Screen.LoginScreen.route) {
+            LaunchedEffect(Unit) { authViewModel.clearAuthState() }
             LoginScreen(
                 viewModel = authViewModel,
                 onLoginSuccess = {
                     navController.navigate(Screen.ListScreen.route) {
                         popUpTo(Screen.LoginScreen.route) { inclusive = true }
                     }
+                },
+                onNavigateToRegister = {
+                    navController.navigate(Screen.RegisterScreen.route)
                 }
             )
         }
         // Register
         composable(Screen.RegisterScreen.route) {
+            LaunchedEffect(Unit) { authViewModel.clearAuthState() }
             RegisterScreen(
                 viewModel = authViewModel,
                 onRegisterSuccess = {
@@ -68,6 +74,7 @@ fun Navigation(authViewModel: AuthViewModel, entregaViewModel: EntregaViewModel)
         }
         // Creación de entrega
         composable(Screen.CreateScreen.route) {
+            LaunchedEffect(Unit) { entregaViewModel.clearError() }
             CrearEntregaScreen(
                 viewModel = entregaViewModel,
                 onBack = {
@@ -82,6 +89,7 @@ fun Navigation(authViewModel: AuthViewModel, entregaViewModel: EntregaViewModel)
             listOf(navArgument("entregaId") { type = NavType.LongType })
         ) { backStackEntry ->
             val entregaId = backStackEntry.arguments?.getLong("entregaId") ?: 0L
+            LaunchedEffect(Unit) { entregaViewModel.clearError() }
             EntregaDetailScreen(
                 viewModel = entregaViewModel,
                 entregaId = entregaId,
